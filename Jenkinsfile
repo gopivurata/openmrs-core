@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('git') {
             steps {
-                git branch: 'my_master', 
+                git branch: 'master', 
                 url: 'https://github.com/gopivurata/openmrs-core.git'
             }
 
