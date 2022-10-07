@@ -1,24 +1,26 @@
 pipeline{
-    agent { label ' NODE-1' }
+    agent { label 'JDK-11' }
     stages {
-        stage(vcs) {
+        stage('vcs') {
             steps {
                 git branch: 'SPRINT_1_DEV',
                 url: 'https://github.com/gopivurata/openmrs-core.git'
             }
         }
-        stage(build) {
+        stage('build') {
             steps {
-                sh 'usr/share/maven/bin/mvn package'
+                sh '/usr/share/maven/bin/mvn package'
             }
         }
-        stage(archive results) {
+        stage('archive results') {
             steps {
-                junit '**/target/*.xml'
+                junit '**/target/surefire-reports/*.xml'
             }
         }
         stage(artifacts) {
-            archiveArtifacts artifacts: '**/target/*.jar'
+            steps {
+                archiveArtifacts artifacts: '**/target/*.jar'
+            }
         }
     }
 }
