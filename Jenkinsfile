@@ -1,5 +1,3 @@
-
-
 pipeline {
 	agent {label 'node'}
     stages {
