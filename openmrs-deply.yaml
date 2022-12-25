@@ -1,0 +1,37 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-openmrs
+spec:
+  minReadySeconds: 10
+  replicas: 2
+  selector:
+    matchLabels:
+      app: openmrs
+  strategy:
+    type: RollingUpdate
+    rollingUpdate: 
+      maxSurge: 25%
+      maxUnavailable: 25%
+  template:
+    metadata:
+      labels:
+        app: openmrs
+      name: openmrs-pod
+    spec:
+      containers:
+        - image: gopivurata/openmrs:1.0
+          name: my-openmrs-container
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          livenessProbe:
+            exec:
+              command:
+                - touch
+                - sample.py
+          command:
+            - catalina.sh
+            - run
+            - 0.0.0.0:8080
